@@ -1,0 +1,59 @@
+NOTICE — 第三方组件与许可证要点
+================================
+
+本文件列出 Learnlysis 运行时与打包时用到的第三方组件及其原始许可证，随发行包
+一并分发。以下是便于阅读的摘要，**以各组件自带的 LICENSE 原文为准**。
+
+运行时依赖
+----------
+
+| 组件 | 用途 | 许可证 | 对本项目的含义 |
+|---|---|---|---|
+| PyQt5 (Qt5) | 桌面 GUI 框架 | GPL v3 / 商业双许可 | ⚠️ 见下方「合规提醒」 |
+| PyQt5-Qt5, PyQt5-sip | Qt 运行时绑定 | GPL v3 / 商业双许可 | 同上 |
+| pandas | 数据模型与 Excel 读写 | BSD 3-Clause | 无碍 |
+| NumPy | 数值内核 | BSD 3-Clause | 无碍 |
+| SciPy | 树状图、统计检验 | BSD 3-Clause | 无碍 |
+| scikit-learn | 层次聚类、随机森林 | BSD 3-Clause | 无碍 |
+| matplotlib | 统计图表 | PSF 风格（BSD-like） | 无碍 |
+| openpyxl | Excel 读写 | MIT | 无碍 |
+| hmmlearn | IND08 隐马尔可夫模型 | MIT | 无碍 |
+| networkx | IND10/11、GRP07–09 图指标 | BSD 3-Clause | 无碍 |
+| joblib | 本地训练模型持久化 | BSD 3-Clause | 无碍 |
+| MiSans（思源黑体系） | 界面字体 | SIL Open Font License 1.1 | 可嵌入分发，字体本身不得单独售卖 |
+| Python 3.11 | 解释器（打进 exe） | PSF / Python 软件基金会许可证 | 无碍 |
+
+可选后端（用户自行安装，不随包分发）
+------------------------------------
+
+torch（BSD）、xgboost（Apache-2.0）、shap（MIT）、opencv-python（Apache-2.0，
+打进 exe 的那份见 requirements-ai.txt 说明）、mediapipe（Apache-2.0）、
+faster-whisper（MIT）。缺席时对应方法自动降级，不影响其它功能。
+
+R 参考层（用户自行安装，不随包分发）
+------------------------------------
+
+R（GPL v2+）与 TraMineR、seqHMM、dtwclust、rENA、jsonlite、readxl、cluster、
+seqinr 等包（多为 GPL / MIT / Artistic-2.0）。本软件只在用户本机调用 `Rscript`
+做逐格互证，不静态链接、不打包分发，R 侧结果的许可由用户的 R 安装环境决定。
+
+构建期工具（不进入发行物）
+--------------------------
+
+PyInstaller（GPL v2 + GNU General Public License exception：用 PyInstaller 打包
+产出的程序**不因此**被 GPL 传染）、Cython（Apache-2.0）、pytest（MIT）、
+Microsoft Visual C++ Build Tools（微软社区许可，仅用于本机编译）。
+
+⚠️ 合规提醒：PyQt5 的 GPL 问题（发布前必须处理）
+------------------------------------------------
+
+PyQt5 采用 GPL v3 与商业许可双授权。以**闭源**方式分发打包后的桌面程序时，
+GPL 路径不成立（那要求整个组合作品以 GPL 提供源码），需要三选一：
+
+1. 购买 Riverbank Computing 的 Qt/PyQt 商业许可证（对应桌面开发用途）；
+2. 迁移到 **PySide6**（LGPL v3，允许闭源程序动态链接，只需保留 LGPL 声明与
+   允许用户替换该库——PyInstaller 的 onedir 布局天然满足「可替换」）；
+3. 把本项目按 GPL v3 开源发布。
+
+本仓库当前用 PyQt5。如果发布对象是学术用户且免费，选项 2（PySide6）通常是
+成本最低的一条路；在此之前，请勿把打包产物对外分发。本提醒不构成法律意见。
